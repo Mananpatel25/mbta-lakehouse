@@ -1,0 +1,15 @@
+version: 2
+sources:
+  - name: raw
+    description: Parquet files written by the Kafka consumer and GTFS loader
+    tables:
+      - name: vehicles
+        description: Live vehicle positions, hour-partitioned by event time
+        meta:
+          external_location: "read_parquet('s3://lake/raw/vehicles/*/*/*.parquet', hive_partitioning=true)"
+      - name: gtfs_routes
+        meta:
+          external_location: "read_parquet('s3://lake/raw/gtfs/routes/*/data.parquet', hive_partitioning=true)"
+      - name: gtfs_stops
+        meta:
+          external_location: "read_parquet('s3://lake/raw/gtfs/stops/*/data.parquet', hive_partitioning=true)"
